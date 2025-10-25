@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLL Robot Testing Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        button {
+            padding: 30px 50px;
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+        }
+        
+        button:active {
+            transform: scale(0.95);
+        }
+        
+        #successBtn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        #failureBtn {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        #kindOfBtn {
+            background-color: #FF9800;
+            color: white;
+        }
+        
+        .stats-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 40px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .stat-label {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .stat-value {
+            font-size: 18px;
+        }
+        
+        .total-row {
+            font-size: 22px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #333;
+        }
+        
+        .reset-btn {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 30px;
+            background-color: #666;
+            color: white;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>FLL Robot Testing Tracker</h1>
+    
+    <div class="button-container">
+        <button id="successBtn">✓ Success</button>
+        <button id="failureBtn">✗ Failure</button>
+        <button id="kindOfBtn">~ Kind Of</button>
+    </div>
+    
+    <div class="stats-container">
+        <div class="stat-row">
+            <span class="stat-label">Success:</span>
+            <span class="stat-value"><span id="successCount">0</span> (<span id="successPercent">0</span>%)</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">Failure:</span>
+            <span class="stat-value"><span id="failureCount">0</span> (<span id="failurePercent">0</span>%)</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">Kind Of:</span>
+            <span class="stat-value"><span id="kindOfCount">0</span> (<span id="kindOfPercent">0</span>%)</span>
+        </div>
+        <div class="stat-row total-row">
+            <span class="stat-label">Total Tests:</span>
+            <span class="stat-value" id="totalCount">0</span>
+        </div>
+        <button class="reset-btn" id="resetBtn">Reset All</button>
+    </div>
+    
+    <script>
+        let successCount = 0;
+        let failureCount = 0;
+        let kindOfCount = 0;
+        
+        function updateDisplay() {
+            const total = successCount + failureCount + kindOfCount;
+            
+            document.getElementById('successCount').textContent = successCount;
+            document.getElementById('failureCount').textContent = failureCount;
+            document.getElementById('kindOfCount').textContent = kindOfCount;
+            document.getElementById('totalCount').textContent = total;
+            
+            if (total > 0) {
+                document.getElementById('successPercent').textContent = ((successCount / total) * 100).toFixed(1);
+                document.getElementById('failurePercent').textContent = ((failureCount / total) * 100).toFixed(1);
+                document.getElementById('kindOfPercent').textContent = ((kindOfCount / total) * 100).toFixed(1);
+            } else {
+                document.getElementById('successPercent').textContent = '0';
+                document.getElementById('failurePercent').textContent = '0';
+                document.getElementById('kindOfPercent').textContent = '0';
+            }
+        }
+        
+        document.getElementById('successBtn').addEventListener('click', function() {
+            successCount++;
+            updateDisplay();
+        });
+        
+        document.getElementById('failureBtn').addEventListener('click', function() {
+            failureCount++;
+            updateDisplay();
+        });
+        
+        document.getElementById('kindOfBtn').addEventListener('click', function() {
+            kindOfCount++;
+            updateDisplay();
+        });
+        
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to reset all data?')) {
+                successCount = 0;
+                failureCount = 0;
+                kindOfCount = 0;
+                updateDisplay();
+            }
+        });
+        
+        // Initialize display
+        updateDisplay();
+    </script>
+</body>
+</html>
